@@ -266,7 +266,7 @@ public class FrameMain extends javax.swing.JFrame {
     
     private void bStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStartActionPerformed
         // TODO add your handling code here:
-        dialThread.runCommand("rasphone -d \"" + iConnName.getText() + "\"");
+//        dialThread.runCommand("rasphone -d \"" + iConnName.getText() + "\"");
         new Thread(dialThread).start();
         isStarted = true;
         reloadButton();
@@ -274,7 +274,10 @@ public class FrameMain extends javax.swing.JFrame {
 
     private void bStopActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStopActionPerformed
         // TODO add your handling code here:
+        oStatus.setForeground(Color.black);
+        oStatus.setText("Stopping...");
         dialThread.stop();
+        oStatus.setText("Stopped");
         isStarted = false;
         reloadButton();
     }//GEN-LAST:event_bStopActionPerformed

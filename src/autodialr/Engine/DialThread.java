@@ -55,9 +55,11 @@ public abstract class DialThread implements Runnable {
                 trial++;
                 if (trial > maxTrial) {
 //                    runCommand("rasphone -h \"" + connection + "\" ;rasphone -d \"" + connection + "\"");
+                    onCommandResult("Disconnecting " + connection);
+                    runCommand("cmd /C start /wait rasphone -h \"" + connection + "\"");
                     onCommandResult("Dialing " + connection);
-                    runCommand("rasphone -h \"" + connection + "\"");
-                    runCommand("rasphone -d \"" + connection + "\"");
+                    runCommand("cmd /C start /wait rasphone -d \"" + connection + "\"");
+                    onCommandResult("Dialing success");
                 }
             } else {
                 trial = 0;
