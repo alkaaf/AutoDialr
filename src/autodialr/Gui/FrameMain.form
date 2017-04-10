@@ -129,6 +129,7 @@
         <Property name="majorTickSpacing" type="int" value="1000"/>
         <Property name="maximum" type="int" value="10000"/>
         <Property name="minimum" type="int" value="1000"/>
+        <Property name="paintLabels" type="boolean" value="true"/>
         <Property name="paintTicks" type="boolean" value="true"/>
         <Property name="snapToTicks" type="boolean" value="true"/>
         <Property name="value" type="int" value="3000"/>
@@ -160,7 +161,7 @@
         <Property name="paintLabels" type="boolean" value="true"/>
         <Property name="paintTicks" type="boolean" value="true"/>
         <Property name="snapToTicks" type="boolean" value="true"/>
-        <Property name="value" type="int" value="3"/>
+        <Property name="value" type="int" value="2"/>
       </Properties>
       <Events>
         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="slideTrialStateChanged"/>

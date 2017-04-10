@@ -60,6 +60,7 @@ public abstract class DialThread implements Runnable {
                     onCommandResult("Dialing " + connection);
                     runCommand("cmd /C start /wait rasphone -d \"" + connection + "\"");
                     onCommandResult("Dialing success");
+                    trial = 0;
                 }
             } else {
                 trial = 0;

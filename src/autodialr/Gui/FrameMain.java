@@ -24,91 +24,98 @@ public class FrameMain extends javax.swing.JFrame {
     public FrameMain() {
         initComponents();
 //        initThread();
-        
+
         initAll();
         oStatus.setText("Ready!!!");
     }
-    
-    public void initAll(){
+
+    public void initAll() {
         initThread();
         reloadButton();
         invokeDelay();
         invokeTrial();
 //        connectedTime();
     }
-    
+
     int delay;
-    public void invokeDelay(){
+
+    public void invokeDelay() {
         delay = slideDelay.getValue();
-        oDelayVal.setText(delay+" ms");
+        oDelayVal.setText(delay + " ms");
         dialThread.setDelay(delay);
     }
-    
+
     int trial;
-    public void invokeTrial(){
+
+    public void invokeTrial() {
         trial = slideTrial.getValue();
-        oTrialVal.setText(trial+" X");
+        oTrialVal.setText(trial + " X");
         dialThread.setMaxTrial(trial);
     }
-    
+
     boolean alive;
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-    public void connectedTime(){
+
+    public void connectedTime() {
         new Thread(new Runnable() {
             long delta = 0;
             long start;
             long end;
             boolean init = true;
+
             @Override
             public void run() {
-                while(true){
+                while (true) {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException ex) {
                         Logger.getLogger(FrameMain.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                    if(alive && init){
+
+                    if (alive && init) {
                         start = System.currentTimeMillis();
                         init = false;
-                    } else if(alive && !init){
+                    } else if (alive && !init) {
                         end = System.currentTimeMillis();
-                    } else if(!alive){
+                    } else if (!alive) {
                         start = 0;
                         end = 0;
                         init = true;
                     }
-                    delta = end-start;
+                    delta = end - start;
                     oDuration.setText(sdf.format(new Date(delta)));
-                } 
+                }
             }
         }).start();
     }
-    
+
     DialThread dialThread;
     boolean isStarted = false;
-    public void initThread(){
+
+    public void initThread() {
         dialThread = new DialThread(iConnName.getText()) {
             @Override
             public void onCommandResult(String result) {
                 oStatus.setText(result);
             }
-            
+
             @Override
             public void onConnectionCheck(boolean connected, String msg) {
                 oStatus.setText(msg);
-                if(connected){
-                    oStatus.setForeground(Color.GREEN);
-                } else {
-                    oStatus.setForeground(Color.red);
+                if (isStarted) {
+                    if (connected) {
+                        oStatus.setForeground(Color.GREEN);
+                    } else {
+                        oStatus.setForeground(Color.red);
+                    }
                 }
             }
 
             @Override
             public void onConnectionCheck(boolean connected, String msg, int trial) {
                 alive = connected;
-                oStatus.setText("("+trial+") "+msg);
-                if(connected){
+                oStatus.setText("(" + trial + ") " + msg);
+                if (connected) {
                     oStatus.setForeground(Color.GREEN);
                 } else {
                     oStatus.setForeground(Color.red);
@@ -170,6 +177,7 @@ public class FrameMain extends javax.swing.JFrame {
         slideDelay.setMajorTickSpacing(1000);
         slideDelay.setMaximum(10000);
         slideDelay.setMinimum(1000);
+        slideDelay.setPaintLabels(true);
         slideDelay.setPaintTicks(true);
         slideDelay.setSnapToTicks(true);
         slideDelay.setValue(3000);
@@ -191,7 +199,7 @@ public class FrameMain extends javax.swing.JFrame {
         slideTrial.setPaintLabels(true);
         slideTrial.setPaintTicks(true);
         slideTrial.setSnapToTicks(true);
-        slideTrial.setValue(3);
+        slideTrial.setValue(2);
         slideTrial.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 slideTrialStateChanged(evt);
@@ -263,10 +271,11 @@ public class FrameMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
+
     private void bStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bStartActionPerformed
         // TODO add your handling code here:
 //        dialThread.runCommand("rasphone -d \"" + iConnName.getText() + "\"");
+        initThread();
         new Thread(dialThread).start();
         isStarted = true;
         reloadButton();
@@ -292,16 +301,17 @@ public class FrameMain extends javax.swing.JFrame {
         invokeTrial();
     }//GEN-LAST:event_slideTrialStateChanged
 
-    public void reloadButton(){
-        if(isStarted){
+    public void reloadButton() {
+        if (isStarted) {
             bStart.setEnabled(false);
             bStop.setEnabled(true);
-            
+
         } else {
             bStart.setEnabled(true);
             bStop.setEnabled(false);
         }
     }
+
     /**
      * @param args the command line arguments
      */
@@ -313,7 +323,7 @@ public class FrameMain extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
